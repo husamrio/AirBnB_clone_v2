@@ -1,5 +1,10 @@
 #!/bin/bash
-'''ENV string templates'''
+'''ENV string templates
+        ***************************
+        ###########################
+        ***************************
+
+'''
 
 HBNB_ENV = 'HBNB_ENV'
 HBNB_MYSQL_USER = 'HBNB_MYSQL_USER'

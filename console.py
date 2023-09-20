@@ -1,5 +1,9 @@
 #!/usr/bin/python3
-""" Console Module """
+""" Console Module 
+        ***************************
+        ###########################
+        ***************************
+"""
 import cmd
 import sys
 from shlex import split
@@ -14,7 +18,11 @@ from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
-    """ Contains the functionality for the HBNB console"""
+    """ Contains the functionality for the HBNB console
+        ***************************
+        ###########################
+        ***************************
+    """
 
     # determines prompt for interactive/non-interactive modes
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
@@ -32,7 +40,11 @@ class HBNBCommand(cmd.Cmd):
             }
 
     def preloop(self):
-        """Prints if isatty is false"""
+        """Prints if isatty is false
+        ***************************
+        ###########################
+        ***************************
+        """
         if not sys.__stdin__.isatty():
             print('(hbnb)')
 
@@ -41,6 +53,9 @@ class HBNBCommand(cmd.Cmd):
 
         Usage: <class name>.<command>([<id> [<*args> or <**kwargs>]])
         (Brackets denote optional fields in usage example.)
+        ***************************
+        ###########################
+        ***************************
         """
         _cmd = _cls = _id = _args = ''  # initialize line elements
 
@@ -88,34 +103,62 @@ class HBNBCommand(cmd.Cmd):
             return line
 
     def postcmd(self, stop, line):
-        """Prints if isatty is false"""
+        """Prints if isatty is false
+        ***************************
+        ###########################
+        ***************************
+        """
         if not sys.__stdin__.isatty():
             print('(hbnb) ', end='')
         return stop
 
     def do_quit(self, command):
-        """ Method to exit the HBNB console"""
+        """ Method to exit the HBNB console
+        ***************************
+        ###########################
+        ***************************
+        """
         exit()
 
     def help_quit(self):
-        """ Prints the help documentation for quit  """
+        """ Prints the help documentation for quit 
+        ***************************
+        ###########################
+        *************************** 
+        """
         print("Exits the program with formatting\n")
 
     def do_EOF(self, arg):
-        """ Handles EOF to exit program """
+        """ Handles EOF to exit program
+        ***************************
+        ###########################
+        *************************** 
+        """
         print()
         exit(0)
 
     def help_EOF(self):
-        """ Prints the help documentation for EOF """
+        """ Prints the help documentation for EOF 
+        ***************************
+        ###########################
+        ***************************
+        """
         print("Exits the program without formatting\n")
 
     def emptyline(self):
-        """ Overrides the emptyline method of CMD """
+        """ Overrides the emptyline method of CMD 
+        ***************************
+        ###########################
+        ***************************
+        """
         pass
 
     def do_create(self, args):
-        """ Create an object of any class"""
+        """ Create an object of any class
+        ***************************
+        ###########################
+        ***************************
+        """
         if not args:
             print("** class name missing **")
             return
@@ -143,12 +186,20 @@ class HBNBCommand(cmd.Cmd):
             return
 
     def help_create(self):
-        """ Help information for the create method """
+        """ Help information for the create method 
+        ***************************
+        ###########################
+        ***************************
+        """
         print("Creates a class of any type")
         print("[Usage]: create <className>\n")
 
     def do_show(self, args):
-        """ Method to show an individual object """
+        """ Method to show an individual object 
+        ***************************
+        ###########################
+        ***************************
+        """
         new = args.partition(" ")
         c_name = new[0]
         c_id = new[2]
@@ -176,12 +227,20 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
 
     def help_show(self):
-        """ Help information for the show command """
+        """ Help information for the show command 
+        ***************************
+        ###########################
+        ***************************
+        """
         print("Shows an individual instance of a class")
         print("[Usage]: show <className> <objectId>\n")
 
     def do_destroy(self, args):
-        """ Destroys a specified object """
+        """ Destroys a specified object 
+        ***************************
+        ###########################
+        ***************************
+        """
         new = args.partition(" ")
         c_name = new[0]
         c_id = new[2]
@@ -209,12 +268,20 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
 
     def help_destroy(self):
-        """ Help information for the destroy command """
+        """ Help information for the destroy command 
+        ***************************
+        ###########################
+        ***************************
+        """
         print("Destroys an individual instance of a class")
         print("[Usage]: destroy <className> <objectId>\n")
 
     def do_all(self, args):
-        """ Shows all objects, or all objects of a class"""
+        """ Shows all objects, or all objects of a class
+        ***************************
+        ###########################
+        ***************************
+        """
         print_list = []
         params = args.split(' ')  # split args
         if args:
@@ -231,7 +298,11 @@ class HBNBCommand(cmd.Cmd):
         print(print_list)
 
     def help_all(self):
-        """ Help information for the all command """
+        """ Help information for the all command 
+        ***************************
+        ###########################
+        ***************************
+        """
         print("Shows all objects, or all of a class")
         print("[Usage]: all <className>\n")
 
@@ -331,7 +402,11 @@ class HBNBCommand(cmd.Cmd):
         new_dict.save()  # save updates to file
 
     def help_update(self):
-        """ Help information for the update class """
+        """ Help information for the update class 
+        ***************************
+        ###########################
+        ***************************
+        """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
 

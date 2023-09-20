@@ -1,5 +1,9 @@
 #!/usr/bin/python3
-""" Review module for the HBNB project """
+""" Review module for the HBNB project 
+    ***************************
+    ###########################
+    ***************************
+"""
 from models.base_model import BaseModel, Base
 from models.stringtemplates import HBNB_TYPE_STORAGE, DB
 from sqlalchemy import String, Column, ForeignKey
@@ -7,7 +11,11 @@ from os import getenv
 
 
 class Review(BaseModel, Base):
-    """ Review classto store review information """
+    """ Review classto store review information 
+        ***************************
+        ###########################
+        ***************************
+    """
     __tablename__ = 'reviews'
     if getenv(HBNB_TYPE_STORAGE) == DB:
         text = Column(String(1024), nullable=False)

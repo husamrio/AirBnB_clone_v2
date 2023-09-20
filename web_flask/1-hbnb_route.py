@@ -2,6 +2,9 @@
 """
 Starts a flask web application
 on 0.0.0.0:5000
+        ***************************
+        ###########################
+        ***************************
 """
 
 from flask import Flask
@@ -11,13 +14,21 @@ app.url_map.strict_slashes = False
 
 @app.route('/')
 def hello_hbnb():
-    """display text"""
+    """display text
+        ***************************
+        ###########################
+        ***************************
+    """
     return "Hello HBNB!"
 
 
 @app.route('/hbnb')
 def hbnb():
-    """display text"""
+    """display text
+        ***************************
+        ###########################
+        ***************************
+    """
     return "HBNB"
 
 

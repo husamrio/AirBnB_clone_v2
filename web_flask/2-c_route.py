@@ -2,6 +2,9 @@
 """
 Start a Flask application with routes
 /, /hbnb, /c/<text>
+        ***************************
+        ###########################
+        ***************************
 """
 
 from flask import Flask
@@ -11,7 +14,11 @@ app.url_map.strict_slashes = False
 
 @app.route('/')
 def hello_hbnb():
-    """display text"""
+    """display text
+        ***************************
+        ###########################
+        ***************************
+    """
     return "Hello HBNB!"
 
 
@@ -23,7 +30,11 @@ def hbnb():
 
 @app.route('/c/<text>')
 def c_text(text):
-    """display custom text given"""
+    """display custom text given
+        ***************************
+        ###########################
+        ***************************
+    """
     return "C {}".format(text.replace('_', ' '))
 
 

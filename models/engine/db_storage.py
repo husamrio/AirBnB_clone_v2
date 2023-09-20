@@ -1,5 +1,9 @@
 #!/usr/bin/python3
-''' DB storage class '''
+''' DB storage class 
+        ***************************
+        ###########################
+        ***************************
+'''
 from os import getenv
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -11,12 +15,20 @@ import models
 
 
 class DBStorage:
-    ''' SQLAlchemy DB '''
+    ''' SQLAlchemy DB 
+        ***************************
+        ###########################
+        ***************************
+    '''
     __engine = None
     __session = None
 
     def __init__(self) -> None:
-        ''' Class constructor '''
+        ''' Class constructor 
+        ***************************
+        ###########################
+        ***************************
+        '''
 
         user = getenv(ENV.HBNB_MYSQL_USER)
         pwd = getenv(ENV.HBNB_MYSQL_PWD)
@@ -31,7 +43,11 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None) -> dict:
-        ''' Query current DB session '''
+        ''' Query current DB session 
+        ***************************
+        ###########################
+        ***************************
+        '''
         database = {}
 
         if cls != '':

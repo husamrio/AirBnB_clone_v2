@@ -46,14 +46,22 @@ class BaseModel:
         return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
 
     def save(self):
-        """Updates updated_at with current time when instance is changed"""
+        """Updates updated_at with current time when instance is changed
+        ***************************
+        ###########################
+        ***************************
+        """
         from models import storage
         self.updated_at = datetime.now()
         storage.new(self)
         storage.save()
 
     def to_dict(self):
-        """Convert instance into dict format"""
+        """Convert instance into dict format
+        ***************************
+        ###########################
+        ***************************
+        """
         dictionary = dict(self.__dict__)
         dictionary['__class__'] = self.__class__.__name__
         dictionary['created_at'] = self.created_at.isoformat()
@@ -64,6 +72,10 @@ class BaseModel:
         return dictionary
 
     def delete(self):
-        ''' Deletes an object '''
+        ''' Deletes an object
+        ***************************
+        ###########################
+        *************************** 
+        '''
         from models import storage
         storage.delete(self)

@@ -1,5 +1,9 @@
 #!/usr/bin/python3
-"""This module instantiates an object of class FileStorage"""
+"""This module instantiates an object of class FileStorage
+**********************
+######################
+**********************
+"""
 from models.stringtemplates import HBNB_TYPE_STORAGE, DB
 from models.base_model import BaseModel
 from models.user import User

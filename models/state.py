@@ -1,5 +1,9 @@
 #!/usr/bin/python3
-""" State Module for HBNB project """
+""" State Module for HBNB project
+    ***************************
+    ###########################
+    ***************************
+"""
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
@@ -11,6 +15,9 @@ class State(BaseModel, Base):
     """
     State class
     Relationship between Class state to city
+    ***************************
+    ###########################
+    ***************************
     """
     __tablename__ = 'states'
 
@@ -23,7 +30,11 @@ class State(BaseModel, Base):
 
         @property
         def cities(self):
-            '''Return a list of city instances in filestorage'''
+            '''Return a list of city instances in filestorage
+               ***************************
+               ###########################
+               ***************************            
+            '''
             from models import storage
 
             list_cities = []

@@ -1,5 +1,9 @@
 #!/usr/bin/python3
-""" Place Module for HBNB project """
+""" Place Module for HBNB project 
+    ***************************
+    ###########################
+    ***************************
+"""
 from models.base_model import BaseModel, Base
 from models.stringtemplates import HBNB_TYPE_STORAGE, DB
 from os import getenv
@@ -15,7 +19,11 @@ place_amenity = Table('place_amenity', Base.metadata,
 
 
 class Place(BaseModel, Base):
-    """ A place to stay """
+    """ A place to stay 
+        ***************************
+        ###########################
+        ***************************
+    """
     __tablename__ = 'places'
     if getenv(HBNB_TYPE_STORAGE) == DB:
         city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
@@ -49,7 +57,11 @@ class Place(BaseModel, Base):
 
         @property
         def reviews(self) -> list:
-            '''Return list of reviews'''
+            '''Return list of reviews
+                ***************************
+                ###########################
+                ***************************
+            '''
             from models import storage
             from models.review import Review
 
@@ -61,7 +73,11 @@ class Place(BaseModel, Base):
 
         @property
         def amenities(self) -> list:
-            '''Get amenity list'''
+            '''Get amenity list
+                ***************************
+                ###########################
+                *************************** 
+            '''
             from models import storage
             from models.amenity import Amenity
 
@@ -73,7 +89,11 @@ class Place(BaseModel, Base):
 
         @amenities.setter
         def amenities(self, amenity=None) -> None:
-            '''Set amenity list'''
+            '''Set amenity list
+               ***************************
+               ###########################
+               ***************************
+            '''
 
             if amenity:
                 self.amenity_ids.append(amenity.id)

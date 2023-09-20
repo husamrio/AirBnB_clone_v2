@@ -1,5 +1,9 @@
 #!/usr/bin/python3
-"""This module defines a class User"""
+"""This module defines a class User
+        ***************************
+        ###########################
+        ***************************
+"""
 from models.base_model import BaseModel, Base
 from models.stringtemplates import HBNB_TYPE_STORAGE, DB
 from sqlalchemy import Column, String

@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 '''
 Deploy files to remote server using Fabric
-
+        ***************************
+        ###########################
+        ***************************
 '''
 from fabric.api import env, put, run, local
 import os.path
@@ -10,7 +12,11 @@ env.hosts = ['web1.osala.tech', 'web2.osala.tech']
 
 
 def do_pack():
-    '''Generate required files'''
+    '''Generate required files
+        ***************************
+        ###########################
+        ***************************
+    '''
     timenow = strftime('%Y%M%d%H%M%S')
     try:
         local('mkdir -p versions')
@@ -22,7 +28,11 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    '''Upload achive to web servers'''
+    '''Upload achive to web servers
+        ***************************
+        ###########################
+        ***************************
+    '''
     if not os.path.isfile(archive_path):
         return False
     try:
@@ -44,7 +54,11 @@ def do_deploy(archive_path):
 
 
 def deploy():
-    '''Deploy to the web server'''
+    '''Deploy to the web server
+        ***************************
+        ###########################
+        ***************************
+    '''
     archive_path = do_pack()
     if archive_path is None:
         return False
@@ -53,7 +67,11 @@ def deploy():
 
 
 def do_clean(number=0):
-    '''Clean webservers'''
+    '''Clean webservers
+        ***************************
+        ###########################
+        ***************************
+    '''
     __local = 'versions/*.tgz'
     __run = '/data/web_static/releases/web_static*'
     if number == 0:

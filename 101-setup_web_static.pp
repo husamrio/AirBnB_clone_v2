@@ -4,6 +4,9 @@ $directory1 = '/data/web_static/releases/test/'
 $directory2 = '/data/web_static/shared/'
 $link = '/data/web_static/current'
 
+#       ***************************
+        ###########################
+        ***************************
 # Run apt-get update
 exec { 'apt-update':
   command => '/usr/bin/apt-get update',
