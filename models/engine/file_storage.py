@@ -5,45 +5,33 @@ import shlex
 
 
 class FileStorage:
-    """This class manages storage of hbnb models in JSON format
-    *****
-    """
+    """This class manages storage of hbnb models in JSON format"""
     __file_path = 'file.json'
     __objects = {}
 
-    def delete(self, obj=None):
-        """loop through __objects, compare each value
-        of key with cls argument wich is object
-        delete an existing element
-        """
-        if obj:
-            key = "{}.{}".format(type(obj).__name__, obj.id)
-            del self.__objects[key]
-
     def all(self, cls=None):
-        """Returns a dictionary of models currently in storage
-        *****
+        """returns a dictionary
+        Return:
+            returns a dictionary of __object
         """
-        print_dict = {}
+        dic = {}
         if cls:
-            className = cls.__name__
-            for k, v in FileStorage.__objects.items():
-                if k.split('.')[0] == className:
-                    print_dict[k] = str(v)
-            return print_dict
+            dictionary = self.__objects
+            for key in dictionary:
+                partition = key.replace('.', ' ')
+                partition = shlex.split(partition)
+                if (partition[0] == cls.__name__):
+                    dic[key] = self.__objects[key]
+            return (dic)
         else:
-            return FileStorage.__objects
+            return self.__objects
 
     def new(self, obj):
-        """Adds new object to storage dictionary
-        *****
-        """
+        """Adds new object to storage dictionary"""
         self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def save(self):
-        """Saves storage dictionary to file
-        *****
-        """
+        """Saves storage dictionary to file"""
         with open(FileStorage.__file_path, 'w') as f:
             temp = {}
             temp.update(FileStorage.__objects)
@@ -51,10 +39,15 @@ class FileStorage:
                 temp[key] = val.to_dict()
             json.dump(temp, f)
 
-    def reload(self):
-        """Loads storage dictionary from file
-        *****
+    def delete(self, obj=None):
+        """ delete an existing element
         """
+        if obj:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            del self.__objects[key]
+
+    def reload(self):
+        """Loads storage dictionary from file"""
         from models.base_model import BaseModel
         from models.user import User
         from models.place import Place
@@ -64,10 +57,10 @@ class FileStorage:
         from models.review import Review
 
         classes = {
-                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
-                    'State': State, 'City': City, 'Amenity': Amenity,
-                    'Review': Review
-                  }
+            'BaseModel': BaseModel, 'User': User, 'Place': Place,
+            'State': State, 'City': City, 'Amenity': Amenity,
+            'Review': Review
+        }
         try:
             temp = {}
             with open(FileStorage.__file_path, 'r') as f:
@@ -78,6 +71,5 @@ class FileStorage:
             pass
 
     def close(self):
-        '''calls reload() method for deserializing the
-        JSON file to objects'''
+        '''calls reload() method for deserializing the JSON file to objects'''
         self.reload()

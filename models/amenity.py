@@ -1,18 +1,16 @@
 #!/usr/bin/python3
-""" State Module for HBNB project
-*****
-"""
+""" State Module for HBNB project """
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
-from os import getenv
 from sqlalchemy.orm import relationship
 from models.place import place_amenity
 from models.stringtemplates import HBNB_TYPE_STORAGE, DB
+from os import getenv
 
 
 class Amenity(BaseModel, Base):
-    """***This is class for Amenity
-    Attributes**:
+    """This is the class for Amenity
+    Attributes:
         name: input name
     """
     __tablename__ = "amenities"
@@ -22,4 +20,4 @@ class Amenity(BaseModel, Base):
                                        secondary=place_amenity,
                                        back_populates='amenities')
     else:
-        name = ""
+        name = ''

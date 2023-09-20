@@ -1,28 +1,22 @@
 #!/usr/bin/python3
-''' DATABASE storage class
-*****
-'''
-from models import stringtemplates as ENV
-from models.state import State
-from sqlalchemy.orm import sessionmaker, scoped_session
-from models.base_model import Base
+''' DB storage class '''
 from os import getenv
 from sqlalchemy import create_engine, MetaData
+from sqlalchemy.orm import sessionmaker, scoped_session
+from models.state import State
 from models.city import City
+from models.base_model import Base
+from models import stringtemplates as ENV
 import models
 
 
 class DBStorage:
-    ''' ***Create SQLAlchemy** DATABASE**
-    *****
-    '''
+    ''' SQLAlchemy DB '''
     __engine = None
     __session = None
 
     def __init__(self) -> None:
-        ''' ***Create engine and link to MySQL databse Class constructor**
-        *****
-        '''
+        ''' Class constructor '''
 
         user = getenv(ENV.HBNB_MYSQL_USER)
         pwd = getenv(ENV.HBNB_MYSQL_PWD)
@@ -30,26 +24,14 @@ class DBStorage:
         db = getenv(ENV.HBNB_MYSQL_DB)
         env = getenv(ENV.HBNB_ENV, 'none')
 
-        self.__engine = create_engine(connection, pool_pre_ping=True)
         connection = f'mysql+mysqldb://{user:s}:{pwd:s}@{host:s}/{db:s}'
+        self.__engine = create_engine(connection, pool_pre_ping=True)
 
         if env == ENV.TEST:
             Base.metadata.drop_all(self.__engine)
 
-    def reload(self) -> None:
-
-        '''*** Current DATABASE changes and session to be Commited**
-        *****
-        '''
-        self.__session = Base.metadata.create_all(self.__engine)
-        factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(factory)
-        self.__session = Session()
-
     def all(self, cls=None) -> dict:
-        ''' ***Query current DB session or Specific one**
-        *****
-        '''
+        ''' Query current DB session '''
         database = {}
 
         if cls != '':
@@ -69,27 +51,26 @@ class DBStorage:
             return database
 
     def new(self, obj) -> None:
-        '''***Add object to DATABASE***
-        *****
-        '''
+        '''Add object to DB'''
         self.__session.add(obj)
 
     def save(self):
-        '''***Commit all current DATABAASE changes**
-        *****
-        '''
+        '''Commit all current DB changes'''
         self.__session.commit()
 
     def delete(self, obj=None) -> None:
-        '''***Delete current DATABASE session**
-        *****
-        '''
+        '''Delete current DB session'''
         if obj is None:
             return
         self.__session.delete(obj)
 
+    def reload(self) -> None:
+        '''Commit all current DB changes and session'''
+        self.__session = Base.metadata.create_all(self.__engine)
+        factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(factory)
+        self.__session = Session()
+
     def close(self) -> None:
-        '''***Private session attribute Must be removed**
-        *****
-        '''
+        '''Remove private session attribute'''
         self.__session.close()
