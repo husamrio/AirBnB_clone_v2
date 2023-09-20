@@ -4,6 +4,9 @@ import io
 import sys
 import cmd
 import shutil
+import console
+from models import storage
+from models.state import State
 
 """
  Cleanup file storage
@@ -14,7 +17,7 @@ if not os.path.exists(file_path):
     try:
         from models.engine.file_storage import FileStorage
         file_path = FileStorage._FileStorage__file_path
-    except:
+    except ImportError:
         pass
 if os.path.exists(file_path):
     os.remove(file_path)
@@ -39,11 +42,9 @@ with open("tmp_console_main.py", "r") as file_i:
                 in_main = True
             elif in_main:
                 if "cmdloop" not in line:
-                    file_o.write(line.lstrip("    ")) 
+                    file_o.write(line.lstrip("    "))
             else:
                 file_o.write(line)
-
-import console
 
 """
  Create console
@@ -59,7 +60,9 @@ my_console.use_rawinput = False
 """
  Exec command
 """
-def exec_command(my_console, the_command, last_lines = 1):
+
+
+def exec_command(my_console, the_command, last_lines=1):
     my_console.stdout = io.StringIO()
     real_stdout = sys.stdout
     sys.stdout = my_console.stdout
@@ -68,26 +71,33 @@ def exec_command(my_console, the_command, last_lines = 1):
     lines = my_console.stdout.getvalue().split("\n")
     return "\n".join(lines[(-1*(last_lines+1)):-1])
 
+
 """
  Objects creations
 """
 state_id_1 = exec_command(my_console, "create State name=\"California\"")
 if state_id_1 is None or state_id_1 == "":
     print("FAIL: Can't create State 1")
-    
-city_id_1 = exec_command(my_console, "create City state_id=\"{}\" name=\"Fremont\"".format(state_id_1))
+
+city_id_1 = exec_command(my_console,
+                         "create City state_id=\"{}\" name=\"Fremont\"".
+                         format(state_id_1))
 if city_id_1 is None or city_id_1 == "":
     print("FAIL: Can't create City 1")
 
-city_id_2 = exec_command(my_console, "create City state_id=\"{}\" name=\"Napa\"".format(state_id_1))
+city_id_2 = exec_command(my_console,
+                         "create City state_id=\"{}\" name=\"Napa\"".
+                         format(state_id_1))
 if city_id_2 is None or city_id_2 == "":
     print("FAIL: Can't create City 2")
 
 state_id_2 = exec_command(my_console, "create State name=\"California2\"")
 if state_id_2 is None or state_id_2 == "":
     print("FAIL: Can't create State 2")
-    
-city_id_3 = exec_command(my_console, "create City state_id=\"{}\" name=\"Sonoma\"".format(state_id_2))
+
+city_id_3 = exec_command(my_console,
+                         "create City state_id=\"{}\" name=\"Sonoma\"".
+                         format(state_id_2))
 if city_id_3 is None or city_id_3 == "":
     print("FAIL: Can't create City 3")
 
@@ -95,19 +105,18 @@ if city_id_3 is None or city_id_3 == "":
 """
  Tests
 """
-from models import storage
-from models.state import State
+
 
 def wrapper_all_type(m_class):
     res = {}
     try:
         res = storage.all(m_class)
-    except:
+    except Exception:
         res = {}
     if res is None or len(res.keys()) == 0:
         try:
             res = storage.all(m_class.__name__)
-        except:
+        except Exception:
             res = {}
     return res
 
@@ -130,7 +139,7 @@ if state_1 is not None:
         print("FAIL: {} missing".format(city_ids_to_search))
 else:
     print("FAIL: State 1 not found")
-  
+
 
 print("OK", end="")
 
