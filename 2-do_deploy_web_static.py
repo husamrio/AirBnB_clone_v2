@@ -7,7 +7,7 @@ Deploy files to remote server using Fabric
 '''
 from fabric.api import env, put, run
 import os.path
-env.hosts = ['web1.osala.tech', 'web2.osala.tech']
+env.hosts = ['web1.greensmartsolutions.tech', 'web2.greensmartsolutions.tech']
 
 
 def do_deploy(archive_path):
