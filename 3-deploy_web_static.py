@@ -2,19 +2,24 @@
 '''
 Deploy files to remote server using Fabric
         ***************************
-        ###########################
+        Fabric script methods:
+    do_pack: packs web_static/ files into .tgz archive
+    do_deploy: deploys archive to webservers
+    deploy: do_packs && do_deploys
+Usage:
+    fab -f 3-deploy_web_static.py deploy -i my_ssh_private_key -u ubuntu
         ***************************
 '''
 from fabric.api import env, put, run, local
 import os.path
 from time import strftime
-env.hosts = ['web1.osala.tech', 'web2.osala.tech']
+env.hosts = ['54.173.80.121', '54.166.167.28']
 
 
 def do_pack():
     '''Generate required files
         ***************************
-        ###########################
+        generate .tgz archive of web_static/ folder
         ***************************
     '''
     timenow = strftime('%Y%M%d%H%M%S')
@@ -30,7 +35,7 @@ def do_pack():
 def do_deploy(archive_path):
     '''Upload achive to web servers
         ***************************
-        ###########################
+        Deploy archive to web server
         ***************************
     '''
     if not os.path.isfile(archive_path):
@@ -56,7 +61,7 @@ def do_deploy(archive_path):
 def deploy():
     '''Deploy to the web servers
         ***************************
-        ###########################
+        Deploy archive to web server
         ***************************
     '''
     archive_path = do_pack()
