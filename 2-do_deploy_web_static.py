@@ -2,18 +2,19 @@
 '''
 Deploy files to remote server using Fabric
         ***************************
-        ###########################
+        Fabric script method:
+    do_deploy: deploys archive to webservers
         ***************************
 '''
 from fabric.api import env, put, run
 import os.path
-env.hosts = ['web1.greensmartsolutions.tech', 'web2.greensmartsolutions.tech']
+env.hosts = ['54.173.80.121', '54.166.167.28']
 
 
 def do_deploy(archive_path):
     '''Upload achive to web servers
         ***************************
-        ###########################
+        Deploy archive to web server
         ***************************
     '''
     if not os.path.isfile(archive_path):
