@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-''' DB storage class 
+''' DB storage class
         ***************************
         ###########################
         ***************************
@@ -15,7 +15,7 @@ import models
 
 
 class DBStorage:
-    ''' SQLAlchemy DB 
+    ''' SQLAlchemy DB
         ***************************
         ###########################
         ***************************
@@ -24,7 +24,7 @@ class DBStorage:
     __session = None
 
     def __init__(self) -> None:
-        ''' Class constructor 
+        ''' Class constructor
         ***************************
         ###########################
         ***************************
@@ -43,7 +43,7 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None) -> dict:
-        ''' Query current DB session 
+        ''' Query current DB session
         ***************************
         ###########################
         ***************************
