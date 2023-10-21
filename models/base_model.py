@@ -75,7 +75,7 @@ class BaseModel:
         ''' Deletes an object
         ***************************
         ###########################
-        *************************** 
+        ***************************
         '''
         from models import storage
         storage.delete(self)

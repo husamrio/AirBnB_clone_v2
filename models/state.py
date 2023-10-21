@@ -33,7 +33,7 @@ class State(BaseModel, Base):
             '''Return a list of city instances in filestorage
                ***************************
                ###########################
-               ***************************            
+               ***************************
             '''
             from models import storage
 

@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" State Module for HBNB project 
+""" State Module for HBNB project
 *******************
 ###################
 *******************

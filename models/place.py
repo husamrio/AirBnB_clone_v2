@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Place Module for HBNB project 
+""" Place Module for HBNB project
     ***************************
     ###########################
     ***************************
@@ -19,7 +19,7 @@ place_amenity = Table('place_amenity', Base.metadata,
 
 
 class Place(BaseModel, Base):
-    """ A place to stay 
+    """ A place to stay
         ***************************
         ###########################
         ***************************
@@ -76,7 +76,7 @@ class Place(BaseModel, Base):
             '''Get amenity list
                 ***************************
                 ###########################
-                *************************** 
+                ***************************
             '''
             from models import storage
             from models.amenity import Amenity

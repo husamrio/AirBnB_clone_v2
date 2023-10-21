@@ -8,7 +8,7 @@ usage: fab -f 1-pack_web_static.py do_pack
 '''
 from fabric.api import local
 from time import strftime
-
+from collections.abc import Mapping  # Import Mapping from collections.abc
 
 def do_pack():
     '''Generate required files
@@ -24,3 +24,4 @@ def do_pack():
         return filename
     except Exception:
         return None
+

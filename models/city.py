@@ -9,7 +9,7 @@ from sqlalchemy.orm import relationship
 
 
 class City(BaseModel, Base):
-    """ The city class, contains state ID and name 
+    """ The city class, contains state ID and name
         ***************************
         ###########################
         ***************************
