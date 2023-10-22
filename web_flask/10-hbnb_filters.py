@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 '''A simple Flask web application.
-**********************************
-**********************************
+   *******************************
+   *******************************
 '''
 from flask import Flask, render_template
 
@@ -12,8 +12,8 @@ from models.state import State
 
 app = Flask(__name__)
 '''The Flask application instance.
-**********************************
-**********************************
+   *******************************
+   *******************************
 '''
 app.url_map.strict_slashes = False
 
@@ -21,8 +21,8 @@ app.url_map.strict_slashes = False
 @app.route('/hbnb_filters')
 def hbnb_filters():
     '''The hbnb_filters page.
-    *************************
-    *************************
+       **********************
+       **********************
     '''
     all_states = list(storage.all(State).values())
     amenities = list(storage.all(Amenity).values())
@@ -40,8 +40,8 @@ def hbnb_filters():
 @app.teardown_appcontext
 def flask_teardown(exc):
     '''The Flask app/request context end event listener.
-    ****************************************************
-    ****************************************************
+       *************************************************
+       *************************************************
     '''
     storage.close()
 

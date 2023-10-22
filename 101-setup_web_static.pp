@@ -1,67 +1,123 @@
-$default_site_loc = '/etc/nginx/sites-available/default'
-$default_site = 'https://raw.githubusercontent.com/husamrio/AirBnB_clone_v2/master/config/default-site'
-$directory1 = '/data/web_static/releases/test/'
-$directory2 = '/data/web_static/shared/'
-$link = '/data/web_static/current'
-
-#       ***************************
-        ###########################
-        ***************************
-# Run apt-get update
-exec { 'apt-update':
+#!/usr/bin/puppet apply
+# AirBnB clone web server setup and configuration
+exec { 'apt-get-update':
   command => '/usr/bin/apt-get update',
-  user    => root,
+  path    => '/usr/bin:/usr/sbin:/bin',
 }
 
-# Install nginx
+exec { 'remove-current':
+  command => 'rm -rf /data/web_static/current',
+  path    => '/usr/bin:/usr/sbin:/bin',
+}
+
 package { 'nginx':
   ensure  => installed,
-  require => Exec['apt-update'],
-  user    => root,
+  require => Exec['apt-get-update'],
 }
 
-# Create directories
-exec { 'create-dirs':
+file { '/var/www':
+  ensure  => directory,
+  mode    => '0755',
+  recurse => true,
   require => Package['nginx'],
-  command => "/usr/bin/mkdir -p ${directory1} ${directory2}",
-  user    => root,
 }
 
-# Create index.html
-file {'create-index.html':
-  require => Exec['create-dirs'],
-  path    => '/data/web_static/releases/test/index.html',
-  content => '<h1>Hello this is puppet master!!!<h1/>',
-  user    => root,
+file { '/var/www/html/index.html':
+  content => 'Hello, World!',
+  require => File['/var/www'],
 }
 
-# Create symbolic link
-exec {'symlink':
-  require => File['create-index.html'],
-  command => "$/usr/bin/ln -sf ${directory1} ${link}",
-  user    => root,
+file { '/var/www/error/404.html':
+  content => "Ceci n'est pas une page",
+  require => File['/var/www'],
 }
 
-# Change owner
-exec {'chown':
-  require => Exec['symlink'],
-  command => "$/usr/bin/chown -hR ubuntu:ubuntu /data/",
-  user    => root,
+exec { 'make-static-files-folder':
+  command => 'mkdir -p /data/web_static/releases/test /data/web_static/shared',
+  path    => '/usr/bin:/usr/sbin:/bin',
+  require => Package['nginx'],
 }
 
-# Replace default site config
+file { '/data/web_static/releases/test/index.html':
+  content =>
+"<!DOCTYPE html>
+<html lang='en-US'>
+	<head>
+		<title>Home - AirBnB Clone</title>
+	</head>
+	<body>
+		<h1>Welcome to AirBnB!</h1>
+	<body>
+</html>
+",
+  replace => true,
+  require => Exec['make-static-files-folder'],
+}
+
+exec { 'link-static-files':
+  command => 'ln -sf /data/web_static/releases/test/ /data/web_static/current',
+  path    => '/usr/bin:/usr/sbin:/bin',
+  require => [
+    Exec['remove-current'],
+    File['/data/web_static/releases/test/index.html'],
+  ],
+}
+
+exec { 'change-data-owner':
+  command => 'chown -hR ubuntu:ubuntu /data',
+  path    => '/usr/bin:/usr/sbin:/bin',
+  require => Exec['link-static-files'],
+}
+
 file { '/etc/nginx/sites-available/default':
-  ensure  => file,
-  require => Package['nginx'],
-  user    => root,
-}-> exec { 'Replace config':
-  command => "/usr/bin/curl ${default_site} > ${default_site_loc}",
-  user    => root,
+  ensure  => present,
+  mode    => '0644',
+  content =>
+"server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+	server_name _;
+	index index.html index.htm;
+	error_page 404 /404.html;
+	add_header X-Served-By \$hostname;
+	location / {
+		root /var/www/html/;
+		try_files \$uri \$uri/ =404;
+	}
+	location /hbnb_static/ {
+		alias /data/web_static/current/;
+		try_files \$uri \$uri/ =404;
+	}
+	if (\$request_filename ~ redirect_me){
+		rewrite ^ https://sketchfab.com/bluepeno/models permanent;
+	}
+	location = /404.html {
+		root /var/www/error/;
+		internal;
+	}
+}",
+  require => [
+    Package['nginx'],
+    File['/var/www/html/index.html'],
+    File['/var/www/error/404.html'],
+    Exec['change-data-owner']
+  ],
 }
 
-# Start nginx 
-service {'nginx':
-  ensure  => running,
-  require => Exec['Replace config'],
-  user    => root,
+exec { 'enable-site':
+  command => "ln -sf '/etc/nginx/sites-available/default' '/etc/nginx/sites-enabled/default'",
+  path    => '/usr/bin:/usr/sbin:/bin',
+  require => File['/etc/nginx/sites-available/default'],
 }
+
+exec { 'start-nginx':
+  command => 'sudo service nginx restart',
+  path    => '/usr/bin:/usr/sbin:/bin',
+  require => [
+    Exec['enable-site'],
+    Package['nginx'],
+    File['/data/web_static/releases/test/index.html'],
+  ],
+}
+
+Exec['start-nginx']

@@ -1,48 +1,38 @@
 #!/usr/bin/python3
-""" State Module for HBNB project
-    ***************************
-    ###########################
-    ***************************
-"""
-from models.base_model import BaseModel, Base
+""" State Module for HBNB project """
+import os
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-from os import getenv
-from models.stringtemplates import HBNB_TYPE_STORAGE, DB
+
+from models.base_model import BaseModel, Base
+from models.city import City
 
 
 class State(BaseModel, Base):
-    """
-    State class
-    Relationship between Class state to city
-    ***************************
-    ###########################
-    ***************************
+    """ State class
+        ***********
+        ***********
     """
     __tablename__ = 'states'
-
-    if (getenv(HBNB_TYPE_STORAGE) == DB):
-        name = Column(String(128), nullable=False)
-        cities = relationship('City', backref='state',
-                              cascade='all, delete, delete-orphan')
+    name = Column(
+        String(128), nullable=False
+    ) if os.getenv('HBNB_TYPE_STORAGE') == 'db' else ''
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+        cities = relationship(
+            'City',
+            cascade='all, delete, delete-orphan',
+            backref='state'
+        )
     else:
-        name = ''
-
         @property
         def cities(self):
-            '''Return a list of city instances in filestorage
-               ***************************
-               ###########################
-               ***************************
-            '''
+            """Returns the cities in this State
+               ********************************
+               ********************************
+            """
             from models import storage
-
-            list_cities = []
-            data = storage.all()
-            for city in data:
-                try:
-                    if data[city].state_id == self.id:
-                        list_cities.append(data[city])
-                except Exception:
-                    pass
-            return list_cities
+            cities_in_state = []
+            for value in storage.all(City).values():
+                if value.state_id == self.id:
+                    cities_in_state.append(value)
+            return cities_in_state

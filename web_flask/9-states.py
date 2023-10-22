@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 '''A simple Flask web application.
-**********************************
-**********************************
+   *******************************
+   *******************************
 '''
 from flask import Flask, render_template
 
@@ -11,8 +11,8 @@ from models.state import State
 
 app = Flask(__name__)
 '''The Flask application instance.
-**********************************
-**********************************
+   *******************************
+   *******************************
 '''
 app.url_map.strict_slashes = False
 
@@ -48,8 +48,8 @@ def states(id=None):
 @app.teardown_appcontext
 def flask_teardown(exc):
     '''The Flask app/request context end event listener.
-    ****************************************************
-    ****************************************************
+       *************************************************
+       *************************************************
     '''
     storage.close()
 

@@ -1,27 +1,36 @@
 #!/usr/bin/python3
-'''
-A script to generate .tgz file from the contents of webstatic
-usage: fab -f 1-pack_web_static.py do_pack
-        ***************************
-        ###########################
-        ***************************
-'''
-from fabric.api import local
-from time import strftime
-from collections.abc import Mapping  # Import Mapping from collections.abc
+"""A module for web application deployment with Fabric.
+   ****************************************************
+   ****************************************************
+   ****************************************************
+"""
+import os
+from datetime import datetime
+from fabric.api import local, runs_once
 
 
+@runs_once
 def do_pack():
-    '''Generate required files
-        ***************************
-        ###########################
-        ***************************
-    '''
-    timenow = strftime('%Y%M%d%H%M%S')
+    """Archives the static files.
+       **************************
+       **************************
+    """
+    if not os.path.isdir("versions"):
+        os.mkdir("versions")
+    cur_time = datetime.now()
+    output = "versions/web_static_{}{}{}{}{}{}.tgz".format(
+        cur_time.year,
+        cur_time.month,
+        cur_time.day,
+        cur_time.hour,
+        cur_time.minute,
+        cur_time.second
+    )
     try:
-        local('mkdir -p versions')
-        filename = 'versions/web_static_{}.tgz'.format(timenow)
-        local('tar -czvf {} web_static/'.format(filename))
-        return filename
+        print("Packing web_static to {}".format(output))
+        local("tar -cvzf {} web_static".format(output))
+        archize_size = os.stat(output).st_size
+        print("web_static packed: {} -> {} Bytes".format(output, archize_size))
     except Exception:
-        return None
+        output = None
+    return output
