@@ -48,7 +48,7 @@ class DBStorage:
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage
            ***************************************************
-           ***************************************************         
+           ***************************************************
         """
         objects = dict()
         all_classes = (User, State, City, Amenity, Place, Review)
@@ -79,7 +79,7 @@ class DBStorage:
     def new(self, obj):
         """Adds new object to storage database
            ***********************************
-           ***********************************        
+           ***********************************
         """
         if obj is not None:
             try:
